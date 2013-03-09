@@ -60,6 +60,29 @@ public class ItemDAO {
     }
     
     /**
+     * アイテム価格データを登録する。Transaction管理は引数のSQLiteDatabaseで
+     * 行われている前提。そのためSQLiteDatabaseをクローズしていない。
+     * @param item アイテム
+     * @param db {@link SQLiteDatabase}オブジェクト
+     * @return 登録成功:true 登録失敗:false
+     */
+    public boolean insert(Item item, SQLiteDatabase db) {
+        long rowId;
+        try {
+            ContentValues values = getContentValues(item);
+            rowId = db.insert("item", null, values);
+            if (rowId < 0) {
+                Log.v(LOG_TAG, "No Insert Data.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } 
+        return true;
+    }
+    
+    /**
      * アイテムデータを更新する
      * @param item Itemオブジェクト
      * @return 更新成功:true、更新失敗:false
@@ -134,6 +157,8 @@ public class ItemDAO {
         return items;
     }
     
+
+    
     /**
      * IRecordからDB登録用にContentValuesにデータを取り出す
      * @param item アイテム
@@ -143,8 +168,6 @@ public class ItemDAO {
         values.put("item_id", item.getId());
         values.put("name", item.getName());
         values.put("type", item.getType());
-        values.put("selling_price", item.getSellingPrice());
-        values.put("buying_price", item.getBuyingPrice());
         values.put("is_identify", item.isIdentify() ? 1 : 0);
         return values;
     }
@@ -159,8 +182,6 @@ public class ItemDAO {
         item.setId(cursor.getInt(cursor.getColumnIndex("item_id")));
         item.setName(cursor.getString(cursor.getColumnIndex("name")));
         item.setType(cursor.getInt(cursor.getColumnIndex("type")));
-        item.setBuyingPrice(cursor.getInt(cursor.getColumnIndex("buying_price")));
-        item.setSellingPrice(cursor.getInt(cursor.getColumnIndex("selling_price")));
         int isIdentify = cursor.getInt(cursor.getColumnIndex("is_identify"));
         item.setIdentify(isIdentify == 0 ? false : true);
         return item;
@@ -186,9 +207,7 @@ public class ItemDAO {
             item.setId(Integer.valueOf(itemList.get(0)));
             item.setName(itemList.get(1));
             item.setType(Integer.valueOf(itemList.get(2)));
-            item.setBuyingPrice(Integer.valueOf(itemList.get(3)));
-            item.setSellingPrice(Integer.valueOf(itemList.get(4)));
-            item.setIdentify("1".equals(itemList.get(5)) ? true : false);
+            item.setIdentify(false);
             insert(item);
         }
         Log.d(LOG_TAG, "Init Data End");

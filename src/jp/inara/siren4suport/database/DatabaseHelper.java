@@ -40,10 +40,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("create table item (_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                     "type INTEGER NOT NULL, " +
                     "name INTEGER NOT NULL, " +
-                    "selling_price INTEGER NOT NULL, " +
-                    "buying_price INTEGER NOT NULL, " +
                     "is_identify INTEGER NOT NULL," +
                     "item_id INTEGER NOT NULL)");
+            
+            // 価格用テーブル作成
+            db.execSQL("create table item_price (_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "item_id INTEGER NOT NULL, " +
+                    "use_count INTEGER NOT NULL, " +
+                    "selling_price INTEGER NOT NULL, " +
+                    "buying_price INTEGER NOT NULL)");
+            
             db.setTransactionSuccessful();
         } catch (Exception e) {
             e.printStackTrace();

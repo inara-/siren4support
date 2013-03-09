@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -36,6 +35,8 @@ import com.actionbarsherlock.widget.SearchView;
 public class ItemListFragment extends SherlockListFragment implements LoaderCallbacks<List<Item>>,
         OnNavigationListener {
 
+    private static final int ITEM_DATA_LOADER_ID = 0;
+    private static final int ITEM_SEARCH_LOADER_ID = 1;
     private ItemListAdapter mAdapter;
     private ItemDataLoader mLoader;
 
@@ -43,12 +44,6 @@ public class ItemListFragment extends SherlockListFragment implements LoaderCall
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        // ActionBarの検索ボタンが押された場合は検索処理を実行
-        final Intent queryIntent = getActivity().getIntent();
-        final String queryAction = queryIntent.getAction();
-        if(Intent.ACTION_SEARCH.endsWith(queryAction)) {
-            doSearchWithIntent(queryIntent);
-        }
     }
     
     @Override
@@ -68,7 +63,7 @@ public class ItemListFragment extends SherlockListFragment implements LoaderCall
         LoaderManager lm = getActivity().getSupportLoaderManager();
         Bundle args = new Bundle();
         args.putInt("type", 1);
-        lm.initLoader(0, args, this);
+        lm.initLoader(ITEM_DATA_LOADER_ID, args, this);
     }
 
     @Override
@@ -88,8 +83,18 @@ public class ItemListFragment extends SherlockListFragment implements LoaderCall
 
     @Override
     public Loader<List<Item>> onCreateLoader(int id, Bundle args) {
-        int type = args.getInt("type");
-        mLoader = new ItemDataLoader(getActivity(), type);
+        
+        switch (id) {
+            case ITEM_DATA_LOADER_ID:
+                int type = args.getInt("type");
+                mLoader = new ItemDataLoader(getActivity(), type);
+                break;
+            case ITEM_SEARCH_LOADER_ID:
+                
+            default:
+                break;
+        }
+
         return mLoader;
     }
 
@@ -123,7 +128,7 @@ public class ItemListFragment extends SherlockListFragment implements LoaderCall
     public void initDropDownActionBar() {
 
         String[] typeList = {
-                "巻物", "草", "腕輪", "札", "杖", "壷"
+                "巻物", "草", "腕輪", "札", "壺", "杖"
         };
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getSherlockActivity(),
                 R.layout.sherlock_spinner_dropdown_item, typeList);
@@ -131,15 +136,6 @@ public class ItemListFragment extends SherlockListFragment implements LoaderCall
         ActionBar actionBar = getSherlockActivity().getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setListNavigationCallbacks(adapter, this);
-    }
-    
-    /**
-     * 検索時の処理
-     * @param intent
-     */
-    private void doSearchWithIntent(Intent intent) {
-        final String queryString = intent.getStringExtra(SearchManager.QUERY);
-        Toast.makeText(getActivity(), queryString, Toast.LENGTH_SHORT).show();
     }
 
     @Override

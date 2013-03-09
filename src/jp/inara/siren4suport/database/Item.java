@@ -9,8 +9,6 @@ public class Item {
     private int mId;
     private String mName;
     private int mType;
-    private int mSellingPrice;
-    private int mBuyingPrice;
     private boolean mIsIdentify;
     
     public int getId() {
@@ -31,18 +29,7 @@ public class Item {
     public void setType(int type) {
         this.mType = type;
     }
-    public int getSellingPrice() {
-        return mSellingPrice;
-    }
-    public void setSellingPrice(int sellingPrice) {
-        this.mSellingPrice = sellingPrice;
-    }
-    public int getBuyingPrice() {
-        return mBuyingPrice;
-    }
-    public void setBuyingPrice(int buyingPrice) {
-        this.mBuyingPrice = buyingPrice;
-    }
+    
     public boolean isIdentify() {
         return mIsIdentify;
     }

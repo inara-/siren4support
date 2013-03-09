@@ -4,6 +4,7 @@ import java.util.List;
 
 import jp.inara.siren4suport.database.Item;
 import jp.inara.siren4suport.database.ItemDAO;
+import jp.inara.siren4suport.database.ItemPriceDAO;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -35,8 +36,10 @@ public class ItemDataLoader extends AsyncTaskLoader<List<Item>> {
     }
     
     private void createInitData() {
-        ItemDAO dao = new ItemDAO(getContext());
-        dao.createInitData(getContext());
+        ItemDAO itemDAO = new ItemDAO(getContext());
+        itemDAO.createInitData(getContext());
+        ItemPriceDAO priceDAO = new ItemPriceDAO(getContext());
+        priceDAO.createInitData(getContext());
         Editor editor = mPreferences.edit();
         editor.putBoolean("is_finish_init", true);
         editor.commit();

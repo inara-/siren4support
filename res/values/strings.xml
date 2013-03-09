@@ -8,5 +8,6 @@
     <string name="item_identify_search">値段識別</string>
     <string name="search_hint">売値/買値を入力</string>
     <string name="search_label">シレン4値段識別</string>
+    <string name="no_search_item">アイテムが見つかりませんでした</string>
 
 </resources>
