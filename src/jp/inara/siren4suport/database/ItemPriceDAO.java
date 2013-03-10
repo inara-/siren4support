@@ -103,14 +103,16 @@ public class ItemPriceDAO {
      * CusorからItemPriceオブジェクトを生成する
      * 
      * @param cursor itemテーブルに対してのカーソル
+     * @param priceType 通常・祝福・呪いのどれか
      * @return Itemオブジェクト
      */
-    private ItemPrice createFromCursor(Cursor cursor) {
+    private ItemPrice createFromCursor(Cursor cursor, int priceType) {
         ItemPrice itemPrice = new ItemPrice();
         itemPrice.setItemId(cursor.getInt(cursor.getColumnIndex("item_id")));
         itemPrice.setUseCount(cursor.getInt(cursor.getColumnIndex("use_count")));
         itemPrice.setBuyingPrice(cursor.getInt(cursor.getColumnIndex("buying_price")));
         itemPrice.setSellingPrice(cursor.getInt(cursor.getColumnIndex("selling_price")));
+        itemPrice.setPriceType(priceType);
         
         Item item = new Item();
         item.setId(cursor.getInt(cursor.getColumnIndex("item_id")));
@@ -124,7 +126,13 @@ public class ItemPriceDAO {
         return itemPrice;
     }
     
-    public List<ItemPrice> selectByItemPrice(String priceString) {
+    /**
+     * 入力された金額からアイテムを検索する。
+     * @param priceString 金額の文字列
+     * @param priceType 通常・祝福・呪いのどれか
+     * @return
+     */
+    public List<ItemPrice> selectByItemPrice(String priceString, int priceType) {
         Cursor cursor = null;
         SQLiteDatabase db = mHelper.getReadableDatabase();
         String sql = "select item.*, item_price.* from item inner join item_price on item.item_id = item_price.item_id where selling_price = ? or buying_price = ? order by type";
@@ -133,7 +141,7 @@ public class ItemPriceDAO {
             String[] args = new String[] {priceString, priceString};
             cursor = db.rawQuery(sql, args);
             while (cursor.moveToNext()) {
-                ItemPrice item = createFromCursor(cursor);
+                ItemPrice item = createFromCursor(cursor, priceType);
                 items.add(item);
             }
         } catch (SQLException e) {

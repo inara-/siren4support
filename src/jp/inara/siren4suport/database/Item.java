@@ -6,6 +6,20 @@ package jp.inara.siren4suport.database;
  *
  */
 public class Item {
+    /** 巻物 */
+    public static final int ITEM_TYPE_SCROLL = 1;
+    /** 草 */
+    public static final int ITEM_TYPE_GRASS = 2;
+    /** 腕輪　*/
+    public static final int ITEM_TYPE_BANGLE = 3;
+    /** 札 */
+    public static final int ITEM_TYPE_CHARM = 4;
+    /** 壺 */
+    public static final int ITEM_TYPE_POT = 5;
+    /** 杖 */
+    public static final int ITEM_TYPE_STAFF = 6;
+
+    
     private int mId;
     private String mName;
     private int mType;

@@ -47,17 +47,22 @@ public class ItemSearchListAdapter extends ArrayAdapter<ItemPrice> {
         } else {
             mHolder = (ViewHolder)view.getTag();
         }
+        
+        // 文字列作成
         ItemPrice itemPrice = getItem(position);
-        Item item = itemPrice.getItem();
-        mHolder.itemName.setText(item.getName());
+        mHolder.itemName.setText(itemPrice.getSearchListName());
+        
+        // listの色付け
         int textColor;
         Resources res = getContext().getResources();
+        Item item = itemPrice.getItem();
         if(item.isIdentify()){
             textColor = Color.YELLOW;
         } else {
             textColor = res.getColor(android.R.color.primary_text_dark);
         }
         mHolder.itemName.setTextColor(textColor);
+        
         return view;
     }
     
