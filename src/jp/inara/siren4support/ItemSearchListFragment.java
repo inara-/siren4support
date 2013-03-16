@@ -1,11 +1,12 @@
 
-package jp.inara.siren4suport;
+package jp.inara.siren4support;
 
 import java.util.List;
 
-import jp.inara.siren4suport.database.Item;
-import jp.inara.siren4suport.database.ItemDAO;
-import jp.inara.siren4suport.database.ItemPrice;
+import jp.inara.siren4suport.R;
+import jp.inara.siren4support.database.Item;
+import jp.inara.siren4support.database.ItemDAO;
+import jp.inara.siren4support.database.ItemPrice;
 import android.app.SearchManager;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;

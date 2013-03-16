@@ -1,10 +1,10 @@
-package jp.inara.siren4suport;
+package jp.inara.siren4support;
 
 import java.util.List;
 
-import jp.inara.siren4suport.database.Item;
-import jp.inara.siren4suport.database.ItemDAO;
-import jp.inara.siren4suport.database.ItemPriceDAO;
+import jp.inara.siren4support.database.Item;
+import jp.inara.siren4support.database.ItemDAO;
+import jp.inara.siren4support.database.ItemPriceDAO;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;

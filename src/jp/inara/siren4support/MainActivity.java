@@ -1,6 +1,7 @@
 
-package jp.inara.siren4suport;
+package jp.inara.siren4support;
 
+import jp.inara.siren4suport.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;

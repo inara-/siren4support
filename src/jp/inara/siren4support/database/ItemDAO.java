@@ -1,11 +1,11 @@
-package jp.inara.siren4suport.database;
+package jp.inara.siren4support.database;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.inara.siren4suport.util.CSVParser;
+import jp.inara.siren4support.util.CSVParser;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -211,5 +211,30 @@ public class ItemDAO {
             insert(item);
         }
         Log.d(LOG_TAG, "Init Data End");
+    }
+    
+    /**
+     * アイテム識別状態をクリアする
+     * 
+     */
+    public Boolean clearIdentify() {
+        long rows;
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        try {
+            Item item = new Item();
+            item.setIdentify(false);
+            ContentValues values = getContentValues(item);
+            rows = db.update("item", values, null, null);
+            if (rows < 0) {
+                Log.v(LOG_TAG, "No Update Data.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            db.close();
+        }
+        return true;
     }
 }

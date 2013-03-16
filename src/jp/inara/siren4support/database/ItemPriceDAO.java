@@ -1,12 +1,12 @@
 
-package jp.inara.siren4suport.database;
+package jp.inara.siren4support.database;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.inara.siren4suport.util.CSVParser;
+import jp.inara.siren4support.util.CSVParser;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.AssetManager;

@@ -1,4 +1,4 @@
-package jp.inara.siren4suport.database;
+package jp.inara.siren4support.database;
 
 /**
  * アイテムのモデル

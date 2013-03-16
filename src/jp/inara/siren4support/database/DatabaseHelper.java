@@ -1,5 +1,5 @@
 
-package jp.inara.siren4suport.database;
+package jp.inara.siren4support.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
