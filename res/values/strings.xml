@@ -9,5 +9,6 @@
     <string name="search_hint">売値/買値を入力</string>
     <string name="search_label">シレン4値段識別</string>
     <string name="no_search_item">アイテムが見つかりませんでした</string>
+    <string name="item_clear">識別状態をクリア</string>
 
 </resources>

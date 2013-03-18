@@ -26,6 +26,7 @@ import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 
 /**
@@ -136,6 +137,7 @@ public class ItemListFragment extends SherlockListFragment implements LoaderCall
 
         ActionBar actionBar = getSherlockActivity().getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
         actionBar.setListNavigationCallbacks(adapter, this);
     }
 
@@ -158,6 +160,18 @@ public class ItemListFragment extends SherlockListFragment implements LoaderCall
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(activity.getComponentName());
         searchView.setSearchableInfo(searchableInfo);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_clear) {
+            // 識別状態をクリア
+            ItemDAO dao = new ItemDAO(getActivity());
+            dao.clearIdentify();
+        }
+        mLoader.forceLoad();
+        setListShown(false);
+        return true;
     }
     
     @Override

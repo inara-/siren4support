@@ -223,7 +223,8 @@ public class ItemDAO {
         try {
             Item item = new Item();
             item.setIdentify(false);
-            ContentValues values = getContentValues(item);
+            ContentValues values = new ContentValues();
+            values.put("is_identify", item.isIdentify() ? 1 : 0);
             rows = db.update("item", values, null, null);
             if (rows < 0) {
                 Log.v(LOG_TAG, "No Update Data.");
