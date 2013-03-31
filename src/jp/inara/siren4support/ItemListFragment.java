@@ -3,13 +3,15 @@ package jp.inara.siren4support;
 
 import java.util.List;
 
-import jp.inara.siren4suport.R;
+import jp.inara.siren4support.R;
 import jp.inara.siren4support.database.Item;
 import jp.inara.siren4support.database.ItemDAO;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -41,6 +43,7 @@ public class ItemListFragment extends SherlockListFragment implements LoaderCall
     private ItemListAdapter mAdapter;
     private ItemDataLoader mLoader;
     private MenuItem mSearchMenuItem;
+    private SharedPreferences mPreference;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,7 @@ public class ItemListFragment extends SherlockListFragment implements LoaderCall
 
         setEmptyText(getText(R.string.no_item_data));
 
+        mPreference = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mAdapter = new ItemListAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1);
         setListAdapter(mAdapter);
 
@@ -88,6 +92,11 @@ public class ItemListFragment extends SherlockListFragment implements LoaderCall
 
         switch (id) {
             case ITEM_DATA_LOADER_ID:
+                
+                boolean isFinishInit = mPreference.getBoolean("is_finish_init", false);
+                if (!isFinishInit) {
+                    Toast.makeText(getActivity(), R.string.now_initalize, Toast.LENGTH_LONG).show();
+                }
                 int type = args.getInt("type");
                 mLoader = new ItemDataLoader(getActivity(), type);
                 break;
