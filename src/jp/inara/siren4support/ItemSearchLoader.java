@@ -30,13 +30,13 @@ public class ItemSearchLoader extends AsyncTaskLoader<List<ItemPrice>> {
                 ItemPrice.PRICE_TYPE_NORMAL);
 
         // 祝福価格
-        int blessingPrice = (int) Math.floor(getPrice() / 1.1);
+        int blessingPrice = (int) Math.round(getPrice() / 1.1);
         Log.d(LOG_TAG, String.format("blessingPrice = %d", blessingPrice));
         List<ItemPrice> blessingPrices = dao.selectByItemPrice(String.valueOf(blessingPrice),
                 ItemPrice.PRICE_TYPE_BRESSING);
 
         // 呪い・封印価格
-        int cursePrice = (int) Math.floor(getPrice() / 0.8);
+        int cursePrice = (int) Math.round(getPrice() / 0.8);
         Log.d(LOG_TAG, String.format("cursePrice = %d", cursePrice));
         List<ItemPrice> cursePrices = dao.selectByItemPrice(String.valueOf(cursePrice),
                 ItemPrice.PRICE_TYPE_CURSE);
