@@ -1,6 +1,6 @@
 package jp.inara.siren4support;
 
-import jp.inara.siren4suport.R;
+import jp.inara.siren4support.R;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;

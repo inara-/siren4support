@@ -1,7 +1,7 @@
 
 package jp.inara.siren4support;
 
-import jp.inara.siren4suport.R;
+import jp.inara.siren4support.R;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;

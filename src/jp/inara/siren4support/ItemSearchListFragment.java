@@ -3,7 +3,7 @@ package jp.inara.siren4support;
 
 import java.util.List;
 
-import jp.inara.siren4suport.R;
+import jp.inara.siren4support.R;
 import jp.inara.siren4support.database.Item;
 import jp.inara.siren4support.database.ItemDAO;
 import jp.inara.siren4support.database.ItemPrice;
@@ -18,8 +18,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnFocusChangeListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ListView;
 import android.widget.Toast;
 
