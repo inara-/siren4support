@@ -4,17 +4,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <fragment
+        android:id="@+id/item_list"
+        android:name="jp.inara.siren4support.ItemListFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-<!--         <fragment -->
-<!--             android:id="@+id/item_list" -->
-<!--             android:name="jp.inara.siren4suport.ItemListFragment" -->
-<!--             android:layout_width="match_parent" -->
-<!--             android:layout_height="match_parent" -->
-<!--             android:layout_margin="8dp" /> -->
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:layout_margin="4dp" />
 
 </FrameLayout>
