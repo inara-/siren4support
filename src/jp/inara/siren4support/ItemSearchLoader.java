@@ -18,7 +18,7 @@ public class ItemSearchLoader extends AsyncTaskLoader<List<ItemPrice>> {
 
     public ItemSearchLoader(Context context, int price) {
         super(context);
-        mPrice = price;
+        setPrice(price);
     }
 
     @Override
@@ -26,17 +26,17 @@ public class ItemSearchLoader extends AsyncTaskLoader<List<ItemPrice>> {
 
         ItemPriceDAO dao = new ItemPriceDAO(getContext());
         // 通常価格
-        List<ItemPrice> normalPrices = dao.selectByItemPrice(String.valueOf(mPrice),
+        List<ItemPrice> normalPrices = dao.selectByItemPrice(String.valueOf(getPrice()),
                 ItemPrice.PRICE_TYPE_NORMAL);
 
         // 祝福価格
-        int blessingPrice = (int) Math.floor(mPrice / 1.1);
+        int blessingPrice = (int) Math.floor(getPrice() / 1.1);
         Log.d(LOG_TAG, String.format("blessingPrice = %d", blessingPrice));
         List<ItemPrice> blessingPrices = dao.selectByItemPrice(String.valueOf(blessingPrice),
                 ItemPrice.PRICE_TYPE_BRESSING);
 
         // 呪い・封印価格
-        int cursePrice = (int) Math.floor(mPrice / 0.8);
+        int cursePrice = (int) Math.floor(getPrice() / 0.8);
         Log.d(LOG_TAG, String.format("cursePrice = %d", cursePrice));
         List<ItemPrice> cursePrices = dao.selectByItemPrice(String.valueOf(cursePrice),
                 ItemPrice.PRICE_TYPE_CURSE);
@@ -110,5 +110,13 @@ public class ItemSearchLoader extends AsyncTaskLoader<List<ItemPrice>> {
         if (mItems != null) {
             mItems = null;
         }
+    }
+
+    public int getPrice() {
+        return mPrice;
+    }
+
+    public void setPrice(int price) {
+        mPrice = price;
     }
 }

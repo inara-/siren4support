@@ -6,7 +6,6 @@ import java.util.List;
 import jp.inara.siren4suport.R;
 import jp.inara.siren4support.database.Item;
 import jp.inara.siren4support.database.ItemDAO;
-import android.app.Activity;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
@@ -16,6 +15,7 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -38,16 +38,16 @@ public class ItemListFragment extends SherlockListFragment implements LoaderCall
         OnNavigationListener {
 
     private static final int ITEM_DATA_LOADER_ID = 0;
-    private static final int ITEM_SEARCH_LOADER_ID = 1;
     private ItemListAdapter mAdapter;
     private ItemDataLoader mLoader;
+    private MenuItem mSearchMenuItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
     }
-    
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -58,7 +58,7 @@ public class ItemListFragment extends SherlockListFragment implements LoaderCall
         setListAdapter(mAdapter);
 
         setListShown(false);
-        
+
         // ActionBarにドロップダウンを設定
         initDropDownActionBar();
 
@@ -85,14 +85,13 @@ public class ItemListFragment extends SherlockListFragment implements LoaderCall
 
     @Override
     public Loader<List<Item>> onCreateLoader(int id, Bundle args) {
-        
+
         switch (id) {
             case ITEM_DATA_LOADER_ID:
                 int type = args.getInt("type");
                 mLoader = new ItemDataLoader(getActivity(), type);
                 break;
-            case ITEM_SEARCH_LOADER_ID:
-                
+
             default:
                 break;
         }
@@ -143,37 +142,49 @@ public class ItemListFragment extends SherlockListFragment implements LoaderCall
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+
         mLoader.setType(itemPosition + 1);
         mLoader.forceLoad();
         setListShown(false);
+
         return false;
     }
-    
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.activity_main, menu);
-        
-        // 検索メニュー用の設定
-        Activity activity = getActivity();
-        SearchManager searchManager = (SearchManager)activity.getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView)menu.findItem(R.id.menu_search).getActionView();
-        SearchableInfo searchableInfo = searchManager.getSearchableInfo(activity.getComponentName());
+        mSearchMenuItem = menu.findItem(R.id.menu_search);
+        SearchView searchView = (SearchView) mSearchMenuItem.getActionView();
+
+        // SearchViewの設定
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(
+                Context.SEARCH_SERVICE);
+        SearchableInfo searchableInfo = searchManager.getSearchableInfo(getActivity()
+                .getComponentName());
         searchView.setSearchableInfo(searchableInfo);
+
+        // ソフトキーボードを閉じた時にSearchViewを閉じる
+        searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                mSearchMenuItem.collapseActionView();
+            }
+        });
         super.onCreateOptionsMenu(menu, inflater);
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_clear) {
             // 識別状態をクリア
             ItemDAO dao = new ItemDAO(getActivity());
             dao.clearIdentify();
+            mLoader.forceLoad();
+            setListShown(false);
         }
-        mLoader.forceLoad();
-        setListShown(false);
         return true;
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);

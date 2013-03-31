@@ -2,6 +2,8 @@
 <searchable xmlns:android="http://schemas.android.com/apk/res/android"
     android:hint="@string/search_hint"
     android:label="@string/search_label"
-    android:searchSuggestAuthority="jp.inara.siren4suport"
-    android:searchSuggestIntentAction="android.intent.action.VIEW" >
+    android:searchSuggestAuthority="jp.inara.siren4support"
+    android:searchSuggestIntentAction="android.intent.action.VIEW"
+    android:imeOptions="actionSearch|flagNoExtractUi"
+    android:inputType="number" >
 </searchable>
